@@ -51,8 +51,7 @@ To run this project, you will need to add the following environment variables to
 
 ## Lessons Learned
 
-What did you learn while building this project? What challenges did you face and how did you overcome them?
 
-The main challenge I faced during the project is the deadline.
-Since it is a full stack project ,there are lot of areas to focus upon
+
+Since it is a full stack project ,there were lot of areas to focus upon
 It helped me to manage my time for each module in the project
