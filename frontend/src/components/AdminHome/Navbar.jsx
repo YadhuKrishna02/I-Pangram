@@ -178,7 +178,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            Job Zen
+            I-Pangram
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
