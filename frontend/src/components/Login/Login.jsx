@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import {
   addAsyncEmployee,
@@ -70,6 +71,7 @@ const Login = () => {
         const response = await dispatch(loginAsyncEmployee(values));
         if (response?.payload?.success == true) {
           navigate('/tasks');
+          toast.success('Login successfully');
         }
       }
 

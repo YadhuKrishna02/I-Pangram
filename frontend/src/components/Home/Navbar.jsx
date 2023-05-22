@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeEmployee } from '../../redux/employee/employeeSlice';
+import { toast } from 'react-toastify';
 
 function EmployeeNavbar() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function EmployeeNavbar() {
   const handleLogout = () => {
     dispatch(removeEmployee());
     navigate('/login');
+    toast.success('Logout successfully');
   };
 
   const handleViewTasks = () => {

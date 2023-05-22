@@ -36,7 +36,6 @@ const Department = () => {
   const [openModal, setOpenModal] = useState(false);
   const [editDepartment, setEditDepartment] = useState(null);
   const [departmentId, setDepartmentId] = useState(null);
-  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
 
   const handleEdit = (department) => {
     setEditDepartment(department);
