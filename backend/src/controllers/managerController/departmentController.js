@@ -31,14 +31,14 @@ export const viewDepartment = asyncHandler(async (req, res) => {
     })
 })
 export const editDepartment = asyncHandler(async (req, res) => {
-    console.log(req.body, 'jjjjjjjj')
 
     const departmentId = req.params.id;
     const updatedFields = req.body;
 
-    const updatedDepartment = await Department.updateOne(
+    const updatedDepartment = await Department.findByIdAndUpdate(
         { _id: departmentId },
-        { $set: updatedFields }
+        { $set: updatedFields },
+        { new: true }
 
     );
     res.status(HttpStatus.OK).json({
@@ -54,7 +54,7 @@ export const deleteDepartment = asyncHandler(async (req, res) => {
     const departmentId = req.params.id;
 
 
-    const deletedDepartment = await Department.findByIdAndDelete(
+    const department = await Department.findByIdAndDelete(
         { _id: departmentId }
     );
     res.status(HttpStatus.OK).json({
@@ -76,39 +76,9 @@ export const findDepartment = asyncHandler(async (req, res) => {
     })
 })
 
-export const getEmployeesInITWithLocationStartingWithA = asyncHandler(async (req, res) => {
-    const employees = await Department.find({
-        departmentName: "IT",
-        location: { $regex: /^A/i }, // Using regular expression to match location starting with 'A' (case-insensitive)
-    });
 
-    if (!employees) {
-        throw new AppError('No such employee found', HttpStatus.NOT_FOUND);
-    }
-    res.status(HttpStatus.OK).json({
-        employees,
-        status: true,
 
-    })
-})
 
-export const getEmployeesInSalesDescendingOrder = asyncHandler(async (req, res) => {
-    const employees = await Department.find({
-        departmentName: "Sales",
-    })
-        .sort({ employeeID: -1 }) // Sorting by employeeID in descending order
-        .exec();
-
-    if (!employees) {
-        throw new AppError('No such employee found', HttpStatus.NOT_FOUND);
-    }
-
-    res.status(HttpStatus.OK).json({
-        employees,
-        status: true,
-
-    })
-});
 export const viewUsers = asyncHandler(async (req, res) => {
 
     const employees = await User.aggregate([
@@ -133,12 +103,12 @@ export const viewUsers = asyncHandler(async (req, res) => {
     })
 });
 export const assignTask = asyncHandler(async (req, res) => {
-    const { dep_id, user_id } = req.body;
 
-    const departmentExist = await User.findOne({ departmentId: dep_id, _id: user_id });
-    if (departmentExist) {
-        throw new AppError('Department already assigned', HttpStatus.BAD_REQUEST);
-    }
+    const dep_id = req.body.department_id
+    const user_id = req.body._id
+
+
+
 
     const user = await User.findOneAndUpdate(
         { _id: user_id },
@@ -149,7 +119,20 @@ export const assignTask = asyncHandler(async (req, res) => {
     res.status(HttpStatus.OK).json({
         user,
         status: true,
-        message: 'Tasked assigned'
+        message: 'Task assigned'
+
+    })
+
+    // Rest of your code
+
+});
+export const listAllEmployees = asyncHandler(async (req, res) => {
+
+    const empDeptDetails = await User.find().populate('departmentId');
+    res.status(HttpStatus.OK).json({
+        empDeptDetails,
+        status: true,
+        message: 'Fetched successfully'
 
     })
 

@@ -12,6 +12,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import managerReducer from './manager/managerSlice';
 import departmentReducer from './manager/departmentSlice';
 import employeeReducer from './employee/employeeSlice';
+import unassignedReducer from './unassignedEmployee/unassigned';
+import taskReducer from './manager/taskSlice';
+import showTasksReducer from './employee/showTasksSlice';
+import listEmployeesReducer from './manager/listUserSlice';
 // Load state from localStorage
 const loadState = () => {
   try {
@@ -41,6 +45,10 @@ export const store = configureStore({
     manager: managerReducer,
     department: departmentReducer,
     employee: employeeReducer,
+    unassignedEmployee: unassignedReducer,
+    task: taskReducer,
+    showTask: showTasksReducer,
+    listEmployee: listEmployeesReducer,
   },
   preloadedState: persistedState,
 });

@@ -17,8 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeManager } from '../../redux/manager/managerSlice';
 
-const pages = ['Department', 'Add-department'];
-// const settings = ['Login'];
+const pages = ['Department', 'Add-department', 'Employees'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -136,13 +135,23 @@ function Navbar() {
                     >
                       {page}
                     </Typography>
-                  ) : (
+                  ) : page === 'Add-department' ? (
                     <Typography
                       sx={{ textDecoration: 'none' }}
                       textAlign="center"
                       component={Link}
                       to="/manager/add_department"
                       onClick={() => navigate('/manager/add_department')}
+                    >
+                      {page}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      sx={{ textDecoration: 'none' }}
+                      textAlign="center"
+                      component={Link}
+                      to="/manager/view_employees"
+                      onClick={() => navigate('/manager/view_employees')}
                     >
                       {page}
                     </Typography>
@@ -180,6 +189,8 @@ function Navbar() {
                   if (page === 'Add-department') {
                     console.log('clickeddd');
                     navigate('/manager/add_department');
+                  } else if (page === 'Employees') {
+                    navigate('/manager/view_employees');
                   } else {
                     navigate('/manager/department');
                   }
@@ -243,7 +254,6 @@ function Navbar() {
                   <Button onClick={manager ? handleLogout : handleLogin}>
                     {manager ? 'Logout' : 'Login'}
                   </Button>
-                  ;
                 </Typography>
               </MenuItem>
             </Menu>
@@ -253,4 +263,5 @@ function Navbar() {
     </AppBar>
   );
 }
+
 export default Navbar;

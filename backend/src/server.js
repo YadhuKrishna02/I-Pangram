@@ -9,6 +9,7 @@ import errorHandlingMidlleware from './middlewares/errorHandlingMiddleware.js';
 import authRouter from './routes/auth.js'
 import managerRouter from './routes/managerRoute.js'
 import employeeRouter from './routes/employeeRoutes.js';
+import { isAuthenticated } from './middlewares/auth.js';
 
 const app = express()
 

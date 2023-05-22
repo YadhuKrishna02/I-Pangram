@@ -41,7 +41,7 @@ const employeeSlice = createSlice({
       state.employees = payload;
     },
     removeEmployee: (state) => {
-      state.employees.user = {};
+      state.employees.user = null;
     },
   },
   extraReducers: (builder) => {

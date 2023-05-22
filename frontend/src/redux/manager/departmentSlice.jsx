@@ -31,9 +31,12 @@ export const deleteAsyncDepartment = createAsyncThunk(
 );
 export const editAsyncDepartment = createAsyncThunk(
   'department/editAsyncDepartment',
-  async (payload) => {
+  async ({ id, payload }) => {
     try {
-      const response = await departmentApi.put(`/edit_department/${payload}`);
+      const response = await departmentApi.put(
+        `/edit_department/${id}`,
+        payload
+      );
       return response.data;
     } catch (error) {
       // Handle error
@@ -77,12 +80,24 @@ const departmentSlice = createSlice({
         console.log('Department Added');
         state.departments.push(payload);
       })
-      .addCase(editAsyncDepartment.fulfilled, (state, { payload }) => {
-        console.log('Department Edited');
-        state.departments.push(payload);
+      .addCase(editAsyncDepartment.pending, () => {
+        console.log('edit Pending');
       })
+      .addCase(editAsyncDepartment.fulfilled, (state, { payload }) => {
+        console.log(payload, 'opopop');
+        const departmentIndex = state.departments.findIndex(
+          (department) =>
+            department.department._id === payload.updatedDepartment._id
+        );
+        console.log(departmentIndex, 'indddddd');
+        if (departmentIndex !== -1) {
+          // Update the existing department in the state
+          state.departments[departmentIndex].department =
+            payload.updatedDepartment;
+        }
+      })
+
       .addCase(deleteAsyncDepartment.fulfilled, (state, { payload }) => {
-        console.log(payload, 'payyyyyyyyyyy');
         console.log('Department Deleted');
         state.departments = state.departments.filter(
           (department) => department.department._id !== payload.payload

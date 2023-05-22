@@ -3,11 +3,13 @@ import AdminHome from '../pages/AdminHome';
 import Department from '../pages/Department';
 import AddDepartment from '../pages/AddDepartment';
 import AdminHeader from '../components/AdminHome/Navbar';
+import EmployeeList from '../pages/EmployeeList';
+
 import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-function ManagerRoutes() {
-  const manager = useSelector((state) => state?.manager.managers.manager);
+export const ManagerRoutes = () => {
+  const manager = useSelector((state) => state?.manager?.managers?.manager);
   console.log(manager);
   return (
     <Box
@@ -38,10 +40,14 @@ function ManagerRoutes() {
               element={manager ? <AddDepartment /> : '../'}
             />
           </Routes>
+          <Routes>
+            <Route
+              path="/view_employees"
+              element={manager ? <EmployeeList /> : '../'}
+            />
+          </Routes>
         </Box>
       </Box>
     </Box>
   );
-}
-
-export default ManagerRoutes;
+};

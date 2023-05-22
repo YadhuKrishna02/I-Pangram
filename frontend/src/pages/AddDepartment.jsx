@@ -4,13 +4,14 @@ import { TextField, Button, Box, Container, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addAsyncDepartment } from '../redux/manager/departmentSlice';
+import { toast } from 'react-toastify';
 
 const validationSchema = yup.object().shape({
   employeeID: yup.string().required('Employee ID is required'),
   departmentName: yup.string().required('Department is required'),
   categoryName: yup.string().required('Category is required'),
   location: yup.string().required('Location is required'),
-  salary: yup.string().required('Salary is required'),
+  salary: yup.number().required('Salary is required'),
 });
 
 const AddDepartment = () => {
@@ -31,6 +32,7 @@ const AddDepartment = () => {
       const response = await dispatch(addAsyncDepartment(values));
       if (response?.payload?.status == true) {
         navigate('/manager/department');
+        toast.success('Department added successfully');
       }
     },
   });

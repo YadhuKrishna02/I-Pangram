@@ -3,7 +3,7 @@ import { CssBaseline } from '@mui/material';
 
 // import PageNotFound from './pages/PageNotFound';
 import EmployeeRoutes from './routes/EmployeeRoutes';
-import ManagerRoutes from './routes/ManagerRoutes';
+import { ManagerRoutes } from './routes/ManagerRoutes';
 
 function App() {
   return (

@@ -1,8 +1,8 @@
-import AppError from "../utils/appError";
+import AppError from "../utils/appError.js";
 import jwt from 'jsonwebtoken'
-import User from "../models/userModel";
+import User from "../models/userModel.js";
 import asyncHandler from 'express-async-handler';
-import configKeys from './config.js';
+import configKeys from "../config.js";
 
 
 

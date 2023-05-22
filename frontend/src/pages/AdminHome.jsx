@@ -1,5 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import {
   addAsyncManager,
   loginAsyncManager,
@@ -18,7 +20,7 @@ import {
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-const signpvalidationSchema = yup.object().shape({
+const signupValidationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup
     .string()
@@ -32,7 +34,8 @@ const signpvalidationSchema = yup.object().shape({
   gender: yup.string().required('Gender is required'),
   hobbies: yup.array(),
 });
-const loginvalidationSchema = yup.object().shape({
+
+const loginValidationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup
     .string()
@@ -58,26 +61,22 @@ const AdminHome = () => {
       gender: '',
       hobbies: [],
     },
-    validationSchema: isSignup ? signpvalidationSchema : loginvalidationSchema,
+    validationSchema: isSignup ? signupValidationSchema : loginValidationSchema,
     onSubmit: async (values) => {
       if (isSignup) {
         const response = await dispatch(addAsyncManager(values));
-        if (response?.payload?.success == true) {
-          // const token = response?.payload?.token;
-          // Cookies.set('token', token, { expires: 7 });
+        if (response?.payload?.success === true) {
           navigate('/manager/department');
+          toast.success('Successfully logged in');
         }
       } else {
         const response = await dispatch(loginAsyncManager(values));
         console.log(response, 'loginnn');
-        if (response?.payload?.success == true) {
-          // const token = response?.payload?.token;
-          // Cookies.set('token', token, { expires: 7 });
+        if (response?.payload?.success === true) {
           navigate('/manager/department');
+          toast.success('Successfully logged in');
         }
       }
-
-      // Handle form submission here
     },
   });
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { addDepartment, editDepartment, assignTask, viewDepartment, deleteDepartment, viewUsers } from '../controllers/managerController/departmentController.js';
+import { addDepartment, editDepartment, assignTask, viewDepartment, deleteDepartment, viewUsers, listAllEmployees } from '../controllers/managerController/departmentController.js';
 const managerRouter = () => {
     const router = express.Router();
 
@@ -13,6 +13,8 @@ const managerRouter = () => {
     router.delete('/delete_department/:id', deleteDepartment)
 
     router.get('/view_users', viewUsers)
+
+    router.get('/list_all_employees', listAllEmployees)
 
     router.post('/assign_task', assignTask)
 

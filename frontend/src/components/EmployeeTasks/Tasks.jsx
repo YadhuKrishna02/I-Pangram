@@ -2,6 +2,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import { asyncShowTasks } from '../../redux/employee/showTasksSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   maxWidth: 800,
@@ -11,6 +14,19 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 function EmployeeCard() {
+  const [data, setData] = useState(null);
+
+  const dispatch = useDispatch();
+  const user_id = useSelector((state) => state.employee.employees.user._id);
+
+  useEffect(() => {
+    dispatch(asyncShowTasks(user_id)).then((response) => {
+      setData(response?.payload?.department[0]?.department);
+    });
+  }, [dispatch, user_id]);
+
+  console.log(data);
+
   return (
     <Box
       display="flex"
@@ -22,21 +38,25 @@ function EmployeeCard() {
         <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
           Employee Details
         </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Department: HR
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Category: IT
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Location: Kochi
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Salary: 50000
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Employee ID: 54545
-        </Typography>
+        {data && (
+          <>
+            <Typography variant="body1" color="text.secondary">
+              Department: {data.departmentName}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Category: {data.categoryName}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Location: {data.location}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Salary: {data.salary}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Employee ID: {data.employeeID}
+            </Typography>
+          </>
+        )}
       </StyledPaper>
     </Box>
   );

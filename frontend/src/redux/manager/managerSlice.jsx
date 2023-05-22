@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authApi from '../../common/apis/authApi';
-
+import departmentApi from '../../common/apis/departmentApi';
 export const addAsyncManager = createAsyncThunk(
   'manager/addAsyncManager',
   async (payload) => {
@@ -19,6 +19,19 @@ export const loginAsyncManager = createAsyncThunk(
   async (payload) => {
     try {
       const response = await authApi.post('/login', payload);
+      return response.data;
+    } catch (error) {
+      // Handle error
+      console.log(error);
+      throw error; // Throw the error to be caught in the .catch() block
+    }
+  }
+);
+export const asyncAssignTask = createAsyncThunk(
+  'manager/asyncAssignTask',
+  async (payload) => {
+    try {
+      const response = await departmentApi.post('/assign_task', payload);
       return response.data;
     } catch (error) {
       // Handle error
@@ -59,6 +72,7 @@ const managerSlice = createSlice({
         console.log('Login Successful');
         return { ...state, managers: payload };
       })
+
       .addCase(loginAsyncManager.rejected, () => {
         console.log('Rejected');
       })
