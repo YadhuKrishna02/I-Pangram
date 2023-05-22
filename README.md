@@ -5,13 +5,9 @@ This is a website for managing the employees by the manager.
 The manager can assign tasks for the employees and in the employee interface ,they can see the assigned tasks
 
 
+**Client:** React, Redux,Redux Thunk MaterialUI
 
-
-## Authors
-
-- [@yadhuKrishna02](https://www.github.com/yadhuKrishna02)
-
-
+**Server:** Node, Express,MongoDB,Mongoose,JWT
 
 
 ## Features
@@ -49,7 +45,10 @@ To run this project, you will need to add the following environment variables to
 `JWT_SECRET=DJFJKDH767GHJHJN`
 
 
+## Authors
 
+- [@yadhuKrishna02](https://www.github.com/yadhuKrishna02)
+- 
 ## Lessons Learned
 
 What did you learn while building this project? What challenges did you face and how did you overcome them?
