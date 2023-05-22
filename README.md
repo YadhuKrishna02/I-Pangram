@@ -48,7 +48,7 @@ To run this project, you will need to add the following environment variables to
 ## Authors
 
 - [@yadhuKrishna02](https://www.github.com/yadhuKrishna02)
-- 
+
 ## Lessons Learned
 
 What did you learn while building this project? What challenges did you face and how did you overcome them?
