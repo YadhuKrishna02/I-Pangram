@@ -1,4 +1,4 @@
-import { signup, signin, logout, managerSignup, managerLogin } from '../controllers/authController.js';
+import { signup, signin, managerSignup, managerLogin } from '../controllers/authController.js';
 import express from 'express';
 
 const authRouter = () => {
