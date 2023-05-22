@@ -68,7 +68,9 @@ const Department = () => {
       employeeID: formData.employeeID,
     };
     dispatch(editAsyncDepartment({ id: dep_id, payload }))
-      .then(() => {})
+      .then(() => {
+        setOpenModal(false);
+      })
       .catch((error) => {
         console.log(error);
       });

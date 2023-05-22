@@ -71,13 +71,7 @@ export const managerLogin = asyncHandler(async (req, res) => {
 
 });
 
-export const logout = (req, res) => {
-    res.clearCookie('token');
-    res.status(200).json({
-        status: true,
-        message: "logged out successfully"
-    })
-}
+
 
 const sendTokenResponse = async (user, codeStatus, res) => {
     const token = await user.getJwtToken();

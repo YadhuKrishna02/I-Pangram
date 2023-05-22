@@ -13,7 +13,6 @@ const authRouter = () => {
     router.post('/manager/login', managerLogin);
 
 
-    router.get('/logout', logout);
 
     // router.post('/user_login', controller.loginUser);
 

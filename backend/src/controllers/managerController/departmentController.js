@@ -108,8 +108,6 @@ export const assignTask = asyncHandler(async (req, res) => {
     const user_id = req.body._id
 
 
-
-
     const user = await User.findOneAndUpdate(
         { _id: user_id },
         { $set: { departmentId: dep_id } },
