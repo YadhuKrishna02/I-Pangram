@@ -12,7 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/manager/*" element={<ManagerRoutes />} />{' '}
-          <Route path="/*" element={<EmployeeRoutes />} /> {/* User section */}
+          <Route path="/*" element={<EmployeeRoutes />} />
           {/* <Route path="*" element={<PageNotFound />} /> */}
         </Routes>
       </Router>

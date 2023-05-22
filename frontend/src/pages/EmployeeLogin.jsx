@@ -1,11 +1,11 @@
 import Login from '../components/Login/Login';
 
-const Home = () => {
+const EmployeeLogin = () => {
   return (
-    <>
+    <div>
       <Login />
-    </>
+    </div>
   );
 };
 
-export default Home;
+export default EmployeeLogin;

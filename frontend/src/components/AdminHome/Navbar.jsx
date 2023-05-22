@@ -14,9 +14,11 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import LoginModal from '../Modals/LoginModal';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeManager } from '../../redux/manager/managerSlice';
 
-const pages = ['Users'];
-const settings = ['Login'];
+const pages = ['Department', 'Add-department'];
+// const settings = ['Login'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -36,12 +38,21 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    navigate('/manager');
+  };
+  const handleLogout = () => {
+    dispatch(removeManager());
+    navigate('/manager');
+  };
 
   const navigate = useNavigate();
-
-  {
-    /* MODAL */
-  }
+  const manager = useSelector(
+    (state) => state?.manager?.managers?.manager?.firstName ?? 'Login'
+  );
+  console.log(manager);
 
   const [loginModalOpen, setLoginModalOpen] = React.useState(false);
 
@@ -115,18 +126,26 @@ function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page}>
-                  {page === 'Users' ? (
+                  {page === 'Department' ? (
                     <Typography
                       sx={{ textDecoration: 'none' }}
                       textAlign="center"
                       component={Link}
-                      to="/recruiter/users"
-                      onClick={() => navigate('/recruiter/users')}
+                      to="/manager/department"
+                      onClick={() => navigate('/manager/department')}
                     >
                       {page}
                     </Typography>
                   ) : (
-                    <Typography textAlign="center">{page}</Typography>
+                    <Typography
+                      sx={{ textDecoration: 'none' }}
+                      textAlign="center"
+                      component={Link}
+                      to="/manager/add_department"
+                      onClick={() => navigate('/manager/add_department')}
+                    >
+                      {page}
+                    </Typography>
                   )}
                 </MenuItem>
               ))}
@@ -158,8 +177,11 @@ function Navbar() {
                 key={page}
                 onClick={() => {
                   handleCloseNavMenu();
-                  if (page === 'Users') {
-                    navigate('/recruiter/users');
+                  if (page === 'Add-department') {
+                    console.log('clickeddd');
+                    navigate('/manager/add_department');
+                  } else {
+                    navigate('/manager/department');
                   }
                 }}
                 sx={{
@@ -180,7 +202,7 @@ function Navbar() {
               sx={{ display: { xs: 'none', md: 'flex', color: '#fff' } }}
               color="inherit"
             >
-              Login
+              {manager ? manager : ''}
             </Button>
 
             {/* MODAL */}
@@ -190,7 +212,7 @@ function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -209,21 +231,21 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={() => {
-                    handleCloseUserMenu();
-                    if (setting === 'Register') {
-                      handleOpen('register');
-                    } else if (setting == 'Login') {
-                      handleOpen('login');
-                    }
-                  }}
-                >
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem
+                onClick={() => {
+                  handleCloseUserMenu();
+                  // <Button onClick={manager ? handle   : handleLogin}>
+                  //   {manager ? 'Logout' : 'Login'}
+                  // </Button>;
+                }}
+              >
+                <Typography textAlign="center">
+                  <Button onClick={manager ? handleLogout : handleLogin}>
+                    {manager ? 'Logout' : 'Login'}
+                  </Button>
+                  ;
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

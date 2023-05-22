@@ -1,9 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import {
-  addAsyncManager,
-  loginAsyncManager,
-} from '../redux/manager/managerSlice';
+  addAsyncEmployee,
+  loginAsyncEmployee,
+} from '../../redux/employee/employeeSlice';
 
 import { useState } from 'react';
 import {
@@ -40,7 +41,7 @@ const loginvalidationSchema = yup.object().shape({
     .required('Password is required'),
 });
 
-const AdminHome = () => {
+const Login = () => {
   const [isSignup, setIsSignup] = useState(false);
   const [hobbyInput, setHobbyInput] = useState('');
   const [hobbies, setHobbies] = useState([]);
@@ -61,19 +62,14 @@ const AdminHome = () => {
     validationSchema: isSignup ? signpvalidationSchema : loginvalidationSchema,
     onSubmit: async (values) => {
       if (isSignup) {
-        const response = await dispatch(addAsyncManager(values));
+        const response = await dispatch(addAsyncEmployee(values));
         if (response?.payload?.success == true) {
-          // const token = response?.payload?.token;
-          // Cookies.set('token', token, { expires: 7 });
-          navigate('/manager/department');
+          navigate('/tasks');
         }
       } else {
-        const response = await dispatch(loginAsyncManager(values));
-        console.log(response, 'loginnn');
+        const response = await dispatch(loginAsyncEmployee(values));
         if (response?.payload?.success == true) {
-          // const token = response?.payload?.token;
-          // Cookies.set('token', token, { expires: 7 });
-          navigate('/manager/department');
+          navigate('/tasks');
         }
       }
 
@@ -269,4 +265,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default Login;

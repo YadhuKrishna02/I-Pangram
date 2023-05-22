@@ -1,5 +1,4 @@
-// import { useDispatch } from 'react-redux';
-
+import { useState } from 'react';
 import {
   Grid,
   Paper,
@@ -13,15 +12,14 @@ import * as Yup from 'yup';
 import Modal from '@mui/material/Modal';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PropTypes from 'prop-types';
-// import { useNavigate } from 'react-router-dom';
-// import { addAsyncUser } from '../../redux/user/userSlice';
-// import Cookies from 'js-cookie';
 
 RegisterModal.propTypes = {
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -36,6 +34,12 @@ const style = {
 };
 
 export default function RegisterModal({ handleClose, open }) {
+  const [hobbies, setHobbies] = useState([]);
+
+  const handleAddHobby = (hobby) => {
+    setHobbies([...hobbies, hobby]);
+  };
+
   const paperStyle = { padding: '30px 20px', width: 300, margin: '20px auto' };
   const headerStyle = { margin: 0 };
   const avatarStyle = { backgroundColor: '#1bbd7e' };
@@ -45,19 +49,15 @@ export default function RegisterModal({ handleClose, open }) {
     justifyContent: 'center',
   };
 
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
-
   const formik = useFormik({
     initialValues: {
       firstName: '',
       lastName: '',
       email: '',
-      phoneNumber: '',
       password: '',
       confirmPassword: '',
+      hobby: '',
     },
-
     validationSchema: Yup.object({
       firstName: Yup.string()
         .max(15, 'Must be 15 characters or less')
@@ -66,27 +66,16 @@ export default function RegisterModal({ handleClose, open }) {
         .max(15, 'Must be 15 characters or less')
         .required('Required'),
       email: Yup.string().email('Invalid email').required('Required'),
-      phoneNumber: Yup.string()
-        .min(10, 'Enter valid Phone Number')
-        .max(10, 'Enter valid Phone Number')
-        .required('Required'),
       password: Yup.string()
-        .min(8, 'Must be atleast 8 characters')
+        .min(8, 'Must be at least 8 characters')
         .required('Required'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password')], 'Passwords must match')
         .required('Confirm Password is required'),
     }),
-    // onSubmit: async (values) => {
-    // //   const response = await dispatch(addAsyncUser(values));
-
-    // //   if (response?.payload?.status == 'success') {
-    // //     const token = response?.payload?.token;
-    // //     Cookies.set('token', token, { expires: 7 });
-    // //     handleClose();
-    // //     // navigate('/');
-    // //   }
-    // },
+    onSubmit: () => {
+      // Handle form submission with data
+    },
   });
 
   return (
@@ -114,95 +103,123 @@ export default function RegisterModal({ handleClose, open }) {
                 variant="standard"
                 fullWidth
                 name="firstName"
-                value={formik?.values?.firstName}
-                onChange={formik?.handleChange}
-                onBlur={formik?.handleBlur}
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 label="First Name"
                 placeholder="Enter your First Name"
               />
-              {formik?.touched?.firstName && formik?.errors?.firstName ? (
+              {formik.touched.firstName && formik.errors.firstName ? (
                 <Typography variant="caption" color="error">
                   {formik.errors.firstName}
                 </Typography>
               ) : null}
+
               <TextField
                 variant="standard"
                 fullWidth
                 name="lastName"
-                value={formik?.values?.lastName}
-                onChange={formik?.handleChange}
-                onBlur={formik?.handleBlur}
+                value={formik.values.lastName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 label="Last Name"
-                placeholder="Enter your Second Name"
+                placeholder="Enter your Last Name"
               />
-              {formik?.touched?.lastName && formik?.errors?.lastName ? (
+              {formik.touched.lastName && formik.errors.lastName ? (
                 <Typography variant="caption" color="error">
                   {formik.errors.lastName}
                 </Typography>
               ) : null}
+
               <TextField
                 variant="standard"
                 fullWidth
                 name="email"
-                value={formik?.values?.email}
-                onChange={formik?.handleChange}
-                onBlur={formik?.handleBlur}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 label="Email"
                 placeholder="Enter your Email"
               />
-              {formik?.touched?.email && formik?.errors?.email ? (
+              {formik.touched.email && formik.errors.email ? (
                 <Typography variant="caption" color="error">
                   {formik.errors.email}
                 </Typography>
               ) : null}
-              <TextField
-                variant="standard"
-                fullWidth
-                name="phoneNumber"
-                value={formik?.values?.phoneNumber}
-                onChange={formik?.handleChange}
-                onBlur={formik?.handleBlur}
-                label="Phone Number"
-                placeholder="Enter your Phone Number"
-              />
-              {formik?.touched?.phoneNumber && formik?.errors?.phoneNumber ? (
-                <Typography variant="caption" color="error">
-                  {formik?.errors?.phoneNumber}
-                </Typography>
-              ) : null}
+
               <TextField
                 variant="standard"
                 fullWidth
                 type="password"
                 name="password"
-                value={formik?.values?.password}
-                onChange={formik?.handleChange}
-                onBlur={formik?.handleBlur}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 label="Password"
                 placeholder="Enter a secure password"
               />
-              {formik?.touched?.password && formik?.errors?.password ? (
+              {formik.touched.password && formik.errors.password ? (
                 <Typography variant="caption" color="error">
-                  {formik?.errors?.password}
+                  {formik.errors.password}
                 </Typography>
               ) : null}
+
               <TextField
                 variant="standard"
                 type="password"
                 fullWidth
                 name="confirmPassword"
-                value={formik?.values?.confirmPassword}
-                onChange={formik?.handleChange}
-                onBlur={formik?.handleBlur}
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 label="Confirm Password"
                 placeholder="Please confirm the password"
               />
-              {formik?.touched?.confirmPassword &&
-              formik?.errors?.confirmPassword ? (
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
                 <Typography variant="caption" color="error">
-                  {formik?.errors?.confirmPassword}
+                  {formik.errors.confirmPassword}
                 </Typography>
               ) : null}
+
+              <TextField
+                variant="standard"
+                fullWidth
+                name="hobby"
+                value={formik.values.hobby}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                label="Hobby"
+                placeholder="Enter your Hobby"
+              />
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                onClick={() => {
+                  handleAddHobby(formik.values.hobby);
+                  formik.setFieldValue('hobby', '');
+                }}
+              >
+                Add Hobby
+              </Button>
+              <div>
+                {hobbies.map((hobby, index) => (
+                  <Button
+                    key={index}
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<DeleteOutlineOutlinedIcon />}
+                    onClick={() => {
+                      const updatedHobbies = [...hobbies];
+                      updatedHobbies.splice(index, 1);
+                      setHobbies(updatedHobbies);
+                    }}
+                  >
+                    {hobby}
+                  </Button>
+                ))}
+              </div>
 
               <Button
                 sx={buttonStyle}
@@ -213,6 +230,7 @@ export default function RegisterModal({ handleClose, open }) {
               >
                 Sign Up
               </Button>
+
               <Button
                 sx={{
                   color: '#ff5c01',
