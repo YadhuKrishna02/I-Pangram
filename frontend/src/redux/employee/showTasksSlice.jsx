@@ -5,6 +5,7 @@ export const asyncShowTasks = createAsyncThunk(
   'employees/asyncShowTasks',
   async (payload) => {
     try {
+      console.log(payload, 'qqqqqqqq');
       const response = await showTaskApi.get(`/${payload}`);
       return response.data;
     } catch (error) {

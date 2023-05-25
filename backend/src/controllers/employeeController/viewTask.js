@@ -9,33 +9,31 @@ import { ObjectId } from "mongodb";
 
 // import Department from "../../models/departmentModel.";
 export const viewTask = asyncHandler(async (req, res) => {
-    const { user_id } = req.params
+
+    const { _id } = req.params
 
 
-    const department = await User.aggregate([
-        {
-            $match: {
-                _id: new ObjectId(user_id)
-            }
-        },
-        {
-            $lookup: {
-                from: "departments",
-                localField: "departmentId",
-                foreignField: "_id",
-                as: "department"
-            }
-        },
-        {
-            $unwind: "$department"
-        }
-    ]);
+    const user = await User.findById(_id);
+    if (!user.departmentId) {
+        res.json({
+            success: false
+        })
+    }
+    else {
 
-    res.json({
-        department,
-        success: true,
-        message: 'Department fetched successfully'
-    })
+        const departmentId = user.departmentId;
+
+        const department = await Department.findById(departmentId);
+        console.log(department, 'ooooooooooo')
+
+        res.json({
+            department,
+            success: true,
+            message: 'Department fetched successfully'
+        })
+    }
+
+
 
 
 });

@@ -21,7 +21,12 @@ function EmployeeCard() {
 
   useEffect(() => {
     dispatch(asyncShowTasks(user_id)).then((response) => {
-      setData(response?.payload?.department[0]?.department);
+      console.log(response, 'ppppppp');
+      if (response.payload.success === false) {
+        setData(0);
+      } else {
+        setData(response?.payload?.department);
+      }
     });
   }, [dispatch, user_id]);
 
@@ -35,25 +40,29 @@ function EmployeeCard() {
       height="100vh"
     >
       <StyledPaper elevation={3}>
-        <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-          Employee Details
-        </Typography>
-        {data && (
+        {data === 0 ? (
+          <Typography variant="body1" color="text.secondary">
+            No tasks assigned
+          </Typography>
+        ) : (
           <>
-            <Typography variant="body1" color="text.secondary">
-              Department: {data.departmentName}
+            <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
+              Employee Details
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Category: {data.categoryName}
+              Department: {data?.departmentName}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Location: {data.location}
+              Category: {data?.categoryName}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Salary: {data.salary}
+              Location: {data?.location}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Employee ID: {data.employeeID}
+              Salary: {data?.salary}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Employee ID: {data?.employeeID}
             </Typography>
           </>
         )}
