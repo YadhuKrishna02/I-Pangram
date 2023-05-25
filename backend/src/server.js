@@ -9,36 +9,43 @@ import errorHandlingMidlleware from './middlewares/errorHandlingMiddleware.js';
 import authRouter from './routes/auth.js'
 import managerRouter from './routes/managerRoute.js'
 import employeeRouter from './routes/employeeRoutes.js';
-import { isAuthenticated } from './middlewares/auth.js';
 
 const app = express()
 
+// Connect to MongoDB
+connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet({ xssFilter: true }));
 app.use(morgan('dev'));
 
-app.listen(configKeys.PORT, () => {
-    console.log(`Server listening on port ${configKeys.PORT}.`);
+// Set up CORS headers
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    next();
 });
-//connecting mongoDb
-connectDB();
-
 
 app.use(
     cors({
         origin: '*',
-        methods: 'GET POST PUT PATCH DELETE',
+        methods: 'GET, POST, PUT, PATCH, DELETE',
         credentials: true,
     })
 );
 
-app.use('/api/auth', authRouter())
-app.use('/api/manager', managerRouter())
-app.use('/api/employee', employeeRouter())
+// Other middleware and routes
+app.use('/api/auth', authRouter());
+app.use('/api/manager', managerRouter());
+app.use('/api/employee', employeeRouter());
 app.use(errorHandlingMidlleware);
-// catch 404 and forward to error handler
+
+// Catch 404 and forward to error handler
 app.all('*', (req, res, next) => {
     next(new AppError('Not found', 404));
 });
 
+// Start the server
+app.listen(configKeys.PORT, () => {
+    console.log(`Server listening on port ${configKeys.PORT}`);
+});

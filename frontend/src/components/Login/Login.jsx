@@ -16,6 +16,11 @@ import {
   TextField,
   Button,
   Chip,
+  FormControl,
+  MenuItem,
+  FormHelperText,
+  InputLabel,
+  Select,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -146,18 +151,29 @@ const Login = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <FormControl
                     fullWidth
-                    id="gender"
-                    name="gender"
-                    label="Gender"
-                    value={formik.values.gender}
-                    onChange={formik.handleChange}
                     error={
                       formik.touched.gender && Boolean(formik.errors.gender)
                     }
-                    helperText={formik.touched.gender && formik.errors.gender}
-                  />
+                  >
+                    <InputLabel id="gender-label">Gender</InputLabel>
+                    <Select
+                      labelId="gender-label"
+                      label="Gender"
+                      id="gender"
+                      name="gender"
+                      value={formik.values.gender}
+                      onChange={formik.handleChange}
+                    >
+                      <MenuItem value="M">Male</MenuItem>
+                      <MenuItem value="F">Female</MenuItem>
+                      <MenuItem value="O">Other</MenuItem>
+                    </Select>
+                    {formik.touched.gender && (
+                      <FormHelperText>{formik.errors.gender}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField

@@ -26,7 +26,6 @@ const userSchema = new mongoose.Schema(
         },
         gender: {
             type: String,
-            maxlength: 3,
             required: true,
         },
         hobbies: {
