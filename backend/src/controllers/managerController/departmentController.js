@@ -104,16 +104,19 @@ export const viewUsers = asyncHandler(async (req, res) => {
 });
 export const assignTask = asyncHandler(async (req, res) => {
 
-    const dep_id = req.body.department_id
-    const user_id = req.body._id
+    const departmentId = req.body.payload.departmentId
+    const _id = req.body.payload._id
+    console.log(req.body, 'bodyyyyyyyyyy')
+    console.log(req.body.payload._id, 'user_id')
 
 
     const user = await User.findOneAndUpdate(
-        { _id: user_id },
-        { $set: { departmentId: dep_id } },
+        { _id: _id },
+        { $set: { departmentId: departmentId } },
         { new: true }
 
     );
+    console.log(user, 'userrrrrrrrrrrr')
     res.status(HttpStatus.OK).json({
         user,
         status: true,

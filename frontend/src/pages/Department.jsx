@@ -17,7 +17,7 @@ import {
   editAsyncDepartment,
 } from '../redux/manager/departmentSlice';
 import { fetchAsyncUsers } from '../redux/unassignedEmployee/unassigned';
-import { asyncAssignTask } from '../redux/manager/managerSlice';
+import { asyncAssignTask } from '../redux/manager/taskSlice';
 
 const Department = () => {
   const [filter, setFilter] = useState(null);
@@ -81,6 +81,8 @@ const Department = () => {
       departmentId: dep_id,
       _id: userId,
     };
+    console.log(payload, 'popopopopop');
+
     dispatch(asyncAssignTask({ payload }));
   };
 
@@ -407,7 +409,7 @@ const Department = () => {
                         {unassignedEmployees.map((user) => (
                           <TableRow key={user._id}>
                             <TableCell>{user._id}</TableCell>
-                            <TableCell>{user.name}</TableCell>
+                            <TableCell>{user.firstName}</TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell>
                               <Button
